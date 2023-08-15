@@ -12,6 +12,7 @@
 
 [push]
 	default = current
+	autoSetupRemote = true
 
 [color]
   ui = true
@@ -47,3 +48,5 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[branch]
+	sort = -committerdate

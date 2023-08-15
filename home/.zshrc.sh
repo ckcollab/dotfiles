@@ -23,8 +23,17 @@ fpath=("$dotfiles/terminal" $fpath)
 autoload -Uz promptinit && promptinit
 prompt 'paulmillr'
 
+# Java you suck
+# 1.8
+#export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
+# 20
+#export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-20.jdk/Contents/Home
+# 17
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
+export PATH=$JAVA_HOME/bin:$PATH
+
 # Python
-python_bin='/Library/Frameworks/Python.framework/Versions/3.8/bin/'
+python_bin='/Library/Frameworks/Python.framework/Versions/3.10/bin/'
 path+=$python_bin
 
 # Python OpenSSL cert
@@ -38,10 +47,13 @@ path+=('/usr/local/heroku/bin')
 # Ruby (installed from `brew install ruby`)
 export PATH=/usr/local/opt/ruby/bin:$PATH;
 
+# Poetry
+export PATH="$HOME/.poetry/bin:$PATH"
+
 # Virtualenvwrapper
 export WORKON_HOME=$HOME/.virtualenvs
-export VIRTUALENVWRAPPER_PYTHON=/Library/Frameworks/Python.framework/Versions/3.8/bin/python3
-export VIRTUALENVWRAPPER_VIRTUALENV=$python_bin'/virtualenv'
+export VIRTUALENVWRAPPER_PYTHON=$python_bin'python'
+export VIRTUALENVWRAPPER_VIRTUALENV=$python_bin'virtualenv'
 source $python_bin'/virtualenvwrapper.sh'
 
 # Android/react native dev
@@ -50,6 +62,9 @@ export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+# direnv stuff
+eval "$(direnv hook zsh)"
 
 # Node Version Manager (nvm)
 mkdir -p ~/.nvm
@@ -93,3 +108,19 @@ function ff() {
 }
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+eval "
+_direnv_hook() {
+  trap -- '' SIGINT;
+  eval "$("/usr/local/bin/direnv" export zsh)";
+  trap - SIGINT;
+}
+typeset -ag precmd_functions;
+if [[ -z "${precmd_functions[(r)_direnv_hook]+1}" ]]; then
+  precmd_functions=( _direnv_hook ${precmd_functions[@]} )
+fi
+typeset -ag chpwd_functions;
+if [[ -z "${chpwd_functions[(r)_direnv_hook]+1}" ]]; then
+  chpwd_functions=( _direnv_hook ${chpwd_functions[@]} )
+fi"
+
