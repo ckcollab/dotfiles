@@ -1,3 +1,4 @@
+Eric's personal dotfiles setup! Built off Paul Millr's dotfiles from ~2014.
 
 ## install
 
@@ -6,7 +7,7 @@
 3. Run these commands:
     ```bash
     $ mkdir -p ~/src
-    $ git clone git@github.com:ckc-org/dotfiles.git --recursive
+    $ git clone git@github.com:ckcollab/dotfiles.git --recursive
     $ cd dotfiles 
     $ sh bootstrap-new-system.sh
     ```
