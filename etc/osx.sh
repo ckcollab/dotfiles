@@ -57,8 +57,8 @@ defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 sudo defaults write com.apple.AppleMultitouchTrackpad Clicking 1
 
-# Use scroll gesture with the Ctrl (^) modifier key to zoom
-defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true
+# Use scroll gesture with the Ctrl (^) modifier key to zoom -- ignore failures
+defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true > /dev/null 2>&1 || true
 
 # Disable auto-correct
 defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
@@ -74,24 +74,8 @@ defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 # Prevent Time Machine from prompting to use new hard drives as backup volume
 defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
 
-# Disable local Time Machine snapshots
-sudo tmutil disablelocal
-
-# Hibernation mode
-# 0: Disable hibernation (speeds up entering sleep mode)
-# 3: Copy RAM to disk so the system state can still be restored in case of a
-#    power failure.
-sudo pmset -a hibernatemode 0
-
-# Remove the sleep image file to save disk space
-sudo rm /Private/var/vm/sleepimage
-# Create a zero-byte file instead…
-sudo touch /Private/var/vm/sleepimage
-# …and make sure it can’t be rewritten
-sudo chflags uchg /Private/var/vm/sleepimage
-
-# Disable the sudden motion sensor as it’s not useful for SSDs
-sudo pmset -a sms 0
+# Disable local Time Machine snapshots -- skip on newer macs
+sudo tmutil disablelocal > /dev/null 2>&1 || true
 
 # Finder
 # ======
@@ -144,11 +128,6 @@ defaults write com.apple.mail NSUserKeyEquivalents -dict-add "Send" -string "@\\
 
 # Spotlight
 # =========
-
-# Disable Spotlight indexing for any volume that gets mounted and has not yet
-# been indexed before.
-# Use `sudo mdutil -i off "/Volumes/foo"` to stop indexing any volume.
-sudo defaults write /.Spotlight-V100/VolumeConfiguration Exclusions -array "/Volumes"
 
 defaults write com.apple.spotlight orderedItems -array \
         '{"enabled" = 1;"name" = "APPLICATIONS";}' \
