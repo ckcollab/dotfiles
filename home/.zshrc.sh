@@ -53,6 +53,15 @@ export PATH=/usr/local/opt/ruby/bin:$PATH;
 export PATH="/opt/homebrew/bin:$PATH"
 export HOMEBREW_PREFIX=$(brew --prefix)
 
+# Homebrew completions
+if type brew &>/dev/null
+then
+  FPATH="$HOMEBREW_PREFIX/share/zsh/site-functions:${FPATH}"
+
+  autoload -Uz compinit
+  compinit
+fi
+
 # Poetry
 export PATH="$HOME/.poetry/bin:$PATH"
 
@@ -119,7 +128,7 @@ fi
 # ==================================================================
 alias killpycs='find . -name "*.pyc" -delete'
 alias ls='ls -AGhl'
-alias pycharm='open -na "PyCharm.app" --args "$@"'
+alias pycharm='/Users/raynor-m2/Library/Application\ Support/JetBrains/Toolbox/scripts/pycharm "$@"'
 alias dstop='docker stop $(docker ps -qa)'
 alias dstart='docker-compose up -d'
 
