@@ -31,7 +31,10 @@ prompt 'paulmillr'
 # 20
 #export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-20.jdk/Contents/Home
 # 17
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
+#export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
+
+# OpenJDK??? seems to work..
+export JAVA_HOME=/opt/homebrew/opt/openjdk@17
 export PATH=$JAVA_HOME/bin:$PATH
 
 # Python
@@ -101,8 +104,8 @@ git config --global core.excludesfile '~/.gitignore'
 export PATH
 
 # Don't share history between terminal tabs
-unsetopt inc_append_history
-unsetopt share_history
+#unsetopt inc_append_history
+#unsetopt share_history
 
 # direnv stuff
 if command -v direnv > /dev/null 2>&1; then
